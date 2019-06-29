@@ -1,0 +1,101 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply from: '../config.gradle'
+
+android {
+    compileSdkVersion versions.compileSdkVersion
+
+    defaultConfig {
+        applicationId "com.info.daniubox"
+        minSdkVersion versions.minSdkVersion
+        targetSdkVersion versions.targetSdkVersion
+        versionCode versions.releaseVersionCode
+        versionName versions.releaseVersionName
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                JPUSH_APPKEY : "25a2d0d7f37633b8bff1bde6",
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_CHANNEL: "developer-default",
+        ]
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'android'
+            keyPassword 'fht123'
+            storeFile file('pos.jks')
+            storePassword 'fht123'
+        }
+
+    }
+    buildTypes {
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "USE_CANARY", "true"
+            signingConfig signingConfigs.release
+        }
+        release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "USE_CANARY", "false"
+            signingConfig signingConfigs.release
+        }
+
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def outputFile = output.outputFile
+            if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                outputFileName = "Box_${defaultConfig.versionName}.apk"
+            }
+        }
+      
+    }
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:' + versions.kotlinx_coroutines_android
+
+    implementation 'androidx.appcompat:appcompat:' + versions.androidXCompat
+//    implementation 'androidx.constraintlayout:constraintlayout:' + versions.androidXConstraintlayout
+    implementation 'androidx.recyclerview:recyclerview:' + versions.androidXRecycleView
+    implementation 'androidx.preference:preference:'+versions.androidX
+
+    implementation 'com.google.android.material:' + versions.googleMaterial
+
+    // test
+    testImplementation 'junit:junit:' + versions.junit
+    androidTestImplementation 'androidx.test:runner:' + versions.runner
+    androidTestImplementation 'androidx.test.espresso:' + versions.espresso_core
+
+    // third
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:' + versions.BaseRecyclerViewAdapter
+    implementation 'com.afollestad.material-dialogs:' + versions.material_dialogs_core
+    implementation 'de.psdev.licensesdialog:licensesdialog:1.9.0'
+    implementation 'cn.jiguang.sdk:jpush:3.1.6'
+    implementation 'cn.jiguang.sdk:jcore:1.2.5'
+    implementation "com.squareup.okhttp3:okhttp:3.10.0"
+    implementation 'com.github.dfqin:grantor:2.5'
+    // module
+    implementation project(':common')
+    implementation project(':Parser')
+    implementation project(':floatwindow')
+}

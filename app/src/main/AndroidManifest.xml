@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="luyao.box">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+
+    <application
+            android:name=".App"
+            android:allowBackup="true"
+            android:icon="@mipmap/icon"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/icon"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            tools:ignore="GoogleAppIndexingWarning">
+
+        <activity
+                android:name=".ui.MainActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".ui.GateActivity"
+                  android:theme="@style/SplashTheme"
+        >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.WelcomeActivity"
+                  android:theme="@style/SplashTheme"
+        ></activity>
+        <activity android:name=".ui.appManager.AppListActivity"/>
+        <activity android:name=".ui.appManager.AppDetailActivity"/>
+        <activity android:name=".ui.editor.TextEditorActivity"/>
+        <activity android:name=".ui.editor.TextViewerActivity"
+                  android:theme="@style/SearchTheme"/>
+        <activity android:name=".ui.activity.CurrentActivity"/>
+        <activity android:name=".ui.setting.SettingActivity"/>
+        <activity android:name=".about.AboutActivity"/>
+        <activity android:name=".ui.device.DeviceInfoActivity"/>
+
+        <service
+                android:name=".service.BoxAccessibilityService"
+                android:label="@string/app_name"
+                android:enabled="true"
+                android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService"/>
+            </intent-filter>
+            <meta-data
+                    android:name="android.accessibilityservice"
+                    android:resource="@xml/accessibility_service_config"/>
+        </service>
+
+        <provider
+                android:authorities="luyao.box.fileprovider"
+                android:name="androidx.core.content.FileProvider"
+                android:exported="false"
+                android:grantUriPermissions="true">
+            <meta-data
+                    android:name="android.support.FILE_PROVIDER_PATHS"
+                    android:resource="@xml/file_paths"/>
+        </provider>
+    </application>
+
+</manifest>

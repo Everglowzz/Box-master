@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rootView"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <LinearLayout
+        android:id="@+id/ll_update"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:background="@mipmap/qianggeng"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginTop="500dp"
+            android:layout_width="wrap_content"
+            android:text="检测到新版本，正在更新..."
+            android:layout_gravity="center"
+            android:textColor="@android:color/white"
+            android:layout_height="wrap_content"/>
+        <ProgressBar
+            android:id="@+id/pb"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:progressDrawable="@drawable/progressbar"
+            style="?android:progressBarStyleHorizontal"
+            />
+
+    </LinearLayout>
+    <WebView
+        android:visibility="gone"
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </WebView>
+
+
+</LinearLayout>
